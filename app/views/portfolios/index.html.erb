@@ -6,7 +6,7 @@
 <%= link_to "Create new Item",new_portfolio_path %>
 
 <% @portfolios.each do |pf| %>
- <p><%= link_to pf.title,portfolio_path(pf) %></p>
+ <p><%= link_to pf.title,portfolio_show_path(pf) %></p>
  <p><%= pf.subtitle %></p>
  <p><%= pf.body %></p>
  <%= image_tag pf.main_image unless pf.main_image.nil?  %>
