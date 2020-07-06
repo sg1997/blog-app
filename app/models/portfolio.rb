@@ -1,9 +1,7 @@
-$LOAD_PATH << '.'
-require "portfolio"
 class Portfolio < ApplicationRecord
+	has_many :technologies
 	includes Placeholder
 	validates_presence_of :title, :thumb_image, :main_image, :body
-
 	def self.angular 
 		where( subtitle: 'Angular')
     end
