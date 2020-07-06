@@ -1,2 +1,196 @@
-<h1>Home Page</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<% @diagnostic == 1 %>
+<% %>
+
+<%if @diagnostic == 1%>
+  Hello,</br>
+  <%=@diagnostic.patient.fullname%> </br>
+  <% if DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "New" %>
+
+      <!--<span style="margin-left: 40%;">Diagnostic Status: NEW</span></br>-->
+
+      <p>We have received your test request with respect to Order id: <%=@diagnostic&.reference_id%> for <%= @diagnostic.tests.collect(&:name).join(",")%> test(s) with thyrocare lab.
+        We will confirm the time slot shortly. Amount payable is Rs.<%=@diagnostic&.price%>
+        Please call us at +91-8010994994 for any queries regarding your order</p></br>
+  <% elsif DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "Confirmed" %>
+
+
+          <!--<span style="margin-left: 40%;">Diagnostic Status: CONFIRMED</span></br>-->
+
+      <p> We have successfully updated your order id: <%= @diagnostic&.reference_id%>.
+          Please click on the link below to see your updated order details or call us at +91-8010994994 for any more queries regarding your order.</p></br>
+
+  <% elsif DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "Confirmed Edit" %>
+
+          <!--<span style="margin-left: 40%;">Diagnostic Status: CONFIRMED EDIT</span>-->
+
+      <p> We've received change request for your order id: <%=@diagnostic&.reference_id%> and have successfully updated the details.
+        Please call us at +91-8010994994 for any other queries related to your booking.
+
+        Below are the updated details of your booking-</p></br>
+
+  <% elsif DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "Cancelled" %>
+          <!--<span style="margin-left: 40%;">Diagnostic Status: CANCELLED</span>-->
+
+      <p> Your booking of  <%= @diagnostic.tests.collect(&:name).join(",")%> test(s) at thyrocare lab with respect to order id <%=@diagnostic&.reference_id%> has been cancelled.
+        Please call us at +91-8010994994 for any queries regarding your order.
+      </p></br>
+  <% end %>
+  <div class="payslip">
+    <div class="pay-head">
+      <span class="order" ><strong>Orderid: </strong><%= @diagnostic&.reference_id%></span></br>
+      <span class="order" ><strong>Payment Mode: </strong><%= @diagnostic&.pay_type%></span>
+    </div>
+    <div clas="pay-content">
+      <div > <strong>Booking Date and Time:</strong> <%=@diagnostic.appt_at&.in_time_zone&.strftime("%d-%m-%Y, %H:%M:%S")%>
+      </div>
+      <div>
+        <table style=" margin-left: -3px;">
+          <tr>
+            <th>Tests Name</th>
+          </tr>
+          <% @diagnostic.tests.each do |test|%>
+          <tr>
+            <td><%= test.name%></td>
+          </tr>
+          <%end%>
+          </table>
+        </div>
+      </div>
+    <div>
+      <table style=" margin-left: -3px;">
+        <tr>
+          <th>Total Price</th>
+          <td><%=@diagnostic&.price%></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div>
+    <div>
+      <strong>Patient Detail:</strong> <br>
+    </div>
+    <div >
+        <div> <%= @diagnostic.patient&.fullname%></div>
+         <div><%= @diagnostic.patient&.address&.address1%></div>
+         <div><%= @diagnostic.patient&.address&.address2%></div>
+         <div><%= @diagnostic.patient&.address&.city%>, <%= @diagnostic.patient&.address&.pincode%></div>
+        <div> <%= @diagnostic.patient&.phone_no%></div>
+      </div>
+  </div>
+  <br>
+
+  Please call us at +91-8010994994 for any queries regarding your order.<br>
+  Thanks,<br>
+  CrediLabs<br>
+  Powered by CrediHealth,Aapka Health Partner
+
+<%elsif @diagnostic.tests_booking_type_id == 2%>
+    <% temp_addon = "NOTE: Due to the recent COVID-19 lockdown and restrictions, there may be some delay in the delivery of medicines. Sorry for the inconvenience." %>
+
+    <% if DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "New" %>
+        <div>
+        <p>Hello <%=@diagnostic.patient&.fullname%>,</p>
+        <p>Thank you for placing your order with Credihealth. Our executive will be calling you shortly to confirm your order.</p>
+        <p>Order details:</p>
+        <p>Name: <%=@diagnostic.patient&.fullname%> </p>
+        <p>Phone number: <%=@diagnostic.patient&.phone_no%></p>
+        <p>Email: <%=@diagnostic.patient&.email%></p>
+        <p>Order Id: <%=@diagnostic.id%></p>
+        <p>Please call us at +91-8010994994 for any queries regarding your order.</p>
+        <% if !@diagnostic.source_channel.eql?("paytm_mini_app") %>
+          <p>For doctor appointment, diagnostic orders and more visit <a href="www.credihealth.com">www.credihealth.com</a></p>
+        <% end %>
+        <br>
+        <p>Thank You,<p>
+        <p>Wishing you good health,</p>        
+        <p>CrediHealth - Aapka Health Partner</p>
+        <br>
+        <p><b><%= temp_addon %></b></p>
+        </div>
+    <% elsif DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "Confirmed" %>
+        <div>
+          <p>Hello <%=@diagnostic.patient&.fullname%></p>
+          <p>Your medicine order against the order id <%=@diagnostic.id%> is now confirmed and will be delivered soon.</p>
+          <% if !@diagnostic.source_channel.eql?("paytm_mini_app") %>
+            <p>Click here <a href = "https://www.credihealth.com/dashboard">https://www.credihealth.com/dashboard</a> for your order details</p>
+            <p>Thank you for placing your order with Credihealth. Please visit us on <a href = "www.credihealth.com/online-medicine-order">www.credihealth.com/online-medicine-order</a> or call us at +91-8010994994 to place an order again.</p>
+            <p>For doctor appointment, diagnostic orders and more visit <a href = "www.credihealth.com">www.credihealth.com</a></p><br/>
+          <% end %>
+          <p>Thank You,<p>
+          <p>Wishing you good health,</p>
+          <p>CrediHealth - Aapka Health Partner</p>
+          <br>
+          <p><b><%= temp_addon %></b></p>
+        </div>
+    <% elsif DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "Processing" %>
+        <div>
+          <p>Hello <%=@diagnostic.patient&.fullname%></p>
+          <p>Thank you for placing your order with Credihealth. Your order against the order id <%=@diagnostic.id%> is under process. 
+          <% unless  @diagnostic.source_channel.eql?("paytm_mini_app") %>
+            Click here <a href = "https://www.credihealth.com/dashboard"> https://www.credihealth.com/dashboard </a> for order details or call us at +91-8010994994 for any query regarding your order.</p>
+            <p>For doctor appointment, diagnostic orders and more visit <a href="www.credihealth.com">www.credihealth.com</a></p><br/>
+          <% end %>
+          <p>Thank You,<p>
+          <p>Wishing you good health,</p>
+          <p>CrediHealth - Aapka Health Partner</p>
+          <br>
+          <p><b><%= temp_addon %></b></p>
+        </div>
+    <% elsif DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "Converted" %>
+        <div>
+          <p>Hello <%=@diagnostic.patient&.fullname%>,</p>
+          <p>Your medicine order against the order id <%=@diagnostic.id%> is now completed.</p>
+          <p>Thank you for placing your order with Credihealth. 
+          <% if !@diagnostic.source_channel.eql?("paytm_mini_app") %>
+            Please visit us on <a href = "www.credihealth.com/online-medicine-order">www.credihealth.com/online-medicine-order</a> or call us at +91-8010994994 to place an order again.</p>
+            <p>For doctor appointment, diagnostic orders and more visit <a href = "www.credihealth.com">www.credihealth.com</a></p><br />
+          <% end %>
+          <p>Thank You,<p>
+          <p>Wishing you good health,</p>
+          <p>CrediHealth - Aapka Health Partner</p>
+        </div>
+    <% elsif DiagnosticTestBooking::STATUS[@diagnostic.status_id&.to_i] == "Cancelled" %>
+      <% if Appointment::DIAGNOSTIC_REASONS[@diagnostic.cancellation_reason_id] == "Cancelled by user"%>
+        <div>
+          <p>Hi <%=@diagnostic.patient&.fullname%>,</p>
+          <p>As per your request, your medicine order against the order id <%=@diagnostic.id%> has been Cancelled.</p>
+          <% if !@diagnostic.source_channel.eql?("paytm_mini_app") %>
+            <p>Click here <a href = "https://www.credihealth.com/online-medicine-order">https://www.credihealth.com/online-medicine-order</a> or call us at +91-8010994994 to place your order again.</p>
+            <p>For doctor appointment, diagnostic orders and more visit <a href = "www.credihealth.com">www.credihealth.com</a></p>
+          <% end %>
+          <br />
+          <p>Thank You,<p>
+          <p>Wishing you good health,</p>
+          <p>CrediHealth - Aapka Health Partner</p>
+        </div>
+      <%elsif Appointment::DIAGNOSTIC_REASONS[@diagnostic.cancellation_reason_id] == "User did not respond" %>
+        <div>
+          <p>Hi <%=@diagnostic.patient&.fullname%>,</p>
+          <p>Thank you for placing your medicine request with Credihealth. Our medical expert tried calling you but could not connect.</p>
+          <p>We are sorry to inform that your order against Order id <%=@diagnostic.id%> stands cancelled now. 
+          <% if !@diagnostic.source_channel.eql?("paytm_mini_app") %>
+            Click here <a href = "https://www.credihealth.com/online-medicine-order">https://www.credihealth.com/online-medicine-order</a> or call us at +91-8010994994 to place your order again.</p>
+            <p>For doctor appointment, diagnostic orders and more visit <a href="www.credihealth.com">www.credihealth.com</a></p>
+          <% end %>
+          <br>
+          <p>Thank You,<p>
+          <p>Wishing you good health,</p>
+          <p>CrediHealth - Aapka Health Partner</p>
+        </div>
+      <%elsif Appointment::DIAGNOSTIC_REASONS[@diagnostic.cancellation_reason_id] == "Cancelled by us" %>
+        <div>
+          <p>Hi <%=@diagnostic.patient&.fullname%>,</p>
+          <p>We regret to inform that your medicine order against the order id <%=@diagnostic.id%> can not be processed further and your order status now stands cancelled. We apologise for the inconvenience.</p>
+          <% if !@diagnostic.source_channel.eql?("paytm_mini_app") %>
+            <p>Click here <a href = "https://www.credihealth.com/online-medicine-order">https://www.credihealth.com/online-medicine-order</a> or call us at +91-8010994994 to place your order again.</p>
+            <p>For doctor appointment, diagnostic orders and more visit <a href = "www.credihealth.com">www.credihealth.com</a></p>
+          <% end %>
+          <br />
+          <p>Thank You<p>
+          <p>Wishing you good health,</p>
+          <p>CrediHealth - Aapka Health Partner</p>
+        </div>
+      <% end %>
+    <% end %>
+  <%end%>
+<%end%>
