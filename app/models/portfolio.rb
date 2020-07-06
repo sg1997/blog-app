@@ -1,4 +1,7 @@
+$LOAD_PATH << '.'
+require "portfolio"
 class Portfolio < ApplicationRecord
+	includes Placeholder
 	validates_presence_of :title, :thumb_image, :main_image, :body
 
 	def self.angular 
@@ -11,7 +14,7 @@ class Portfolio < ApplicationRecord
 
 
     def set_defaults
-    	self.main_image = "http://placehold.it/600X400"
-    	self.thumb_image = "http://placehold.it/350X200"
+    	self.main_image = Placeholder.image_generator(height: '600',width: '400')
+    	self.thumb_image = Placeholder.image_generator(height: '350',width: '200')
     end
 end
