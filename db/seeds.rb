@@ -6,12 +6,19 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+3.times do |topic|
+	Topic.create!(
+		title: "Topic #{topic}"
+	)
+end
 
+puts '3 topic created'
 
 10.times do |blog|
 	Blog.create!(
 		title: "My Blog Post #{blog}",
-		body: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled"
+		body: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled",
+		topic_id: Topic.last.id
 	)
 end
 
@@ -27,10 +34,20 @@ end
 
 puts "5 skills posts created"
 
-9.times do |portfolio|
+8.times do |portfolio|
 	Portfolio.create!(
 		title: "My Portfolio: #{portfolio}",
-		subtitle: "A great service",
+		subtitle: "Ruby on Rails",
+		body: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem ",
+		main_image: "http://placehold.it/600X400",
+		thumb_image: "http://placehold.it/350X200"
+    )
+end
+
+1.times do |portfolio|
+	Portfolio.create!(
+		title: "My Portfolio: #{portfolio}",
+		subtitle: "Angular",
 		body: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem ",
 		main_image: "http://placehold.it/600X400",
 		thumb_image: "http://placehold.it/350X200"
@@ -38,3 +55,11 @@ puts "5 skills posts created"
 end
 
 puts "9 portfolios created"
+
+3.times do |tech|
+	Portfolio.last.technologies.create!(
+		name: "Technology #{tech}"
+	)
+end
+
+puts "3 technologies created"
