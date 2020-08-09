@@ -33,6 +33,7 @@ class PortfoliosController < ApplicationController
 
   def edit
   	@portfolio = Portfolio.find(params[:id])
+    3.times { @portfolio.technologies.build }
   end
 
   def update
@@ -60,6 +61,6 @@ class PortfoliosController < ApplicationController
   private
 
   def portfolio_params
-    params.require(:portfolio).permit(:title,:subtitle,:body,technologies_attribbutes: [:name]) 
+    params.require(:portfolio).permit(:title,:subtitle,:body,technologies_attributes: [:name]) 
   end
 end
