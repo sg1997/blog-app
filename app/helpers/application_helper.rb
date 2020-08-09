@@ -6,4 +6,11 @@ module ApplicationHelper
      (link_to "Register",new_user_registration_path) + "<br>".html_safe + (link_to "Login",new_user_session_path)
     end 
 	end
+
+	def session_helper(layout_name)
+    if session[:source] 
+     greetings = "Thanks for visiting me form #{session[:source]} and you are on #{layout_name} layout"
+     content_tag(:p,greetings,class: "source-greetings")
+    end 
+	end
 end
