@@ -56,3 +56,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'friendly_id', '~> 5.2.4'
 gem 'devise', '~> 4.7', '>= 4.7.2'
 gem 'bootstrap', '~> 5.0.0.alpha1'
+gem 'devcamp_view_tool',git: 'https://github.com/sg1997/devcamp_view_tool'
