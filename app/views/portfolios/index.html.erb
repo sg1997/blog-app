@@ -3,6 +3,6 @@
 
 <!-- <a href="<%= new_portfolio_path %>">Create new Item</a> -->
 
-<%= link_to "Create new Item",new_portfolio_path %>
+<%= link_to "Create new Item",new_portfolio_path if logged_in?(:site_admin) %>
 
 <%= render @portfolios %>
