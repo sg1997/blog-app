@@ -20,6 +20,9 @@ class PortfoliosController < ApplicationController
 
 	def create
     @portfolio = Portfolio.new(portfolio_params)
+    byebug
+    @portfolio.main_image = params[:portfolio][:main_image]
+    @portfolio.thumb_image = params[:portfolio][:thumb_image]
 
     respond_to do |format|
       if @portfolio.save
@@ -62,6 +65,6 @@ class PortfoliosController < ApplicationController
   private
 
   def portfolio_params
-    params.require(:portfolio).permit(:title,:subtitle,:body,technologies_attributes: [:name]) 
+    params.require(:portfolio).permit(:title,:subtitle, :thumb_image, :main_image,:body,technologies_attributes: [:name]) 
   end
 end

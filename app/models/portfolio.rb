@@ -4,6 +4,9 @@ class Portfolio < ApplicationRecord
 	includes Placeholder
 	validates_presence_of :title, :thumb_image, :main_image, :body
 
+    mount_uploader :thumb_image, PortfolioUploader
+    mount_uploader :main_image, PortfolioUploader
+
     def self.by_position
       order("position ASC")
     end
