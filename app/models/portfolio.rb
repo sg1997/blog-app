@@ -4,8 +4,12 @@ class Portfolio < ApplicationRecord
 	includes Placeholder
 	validates_presence_of :title, :thumb_image, :main_image, :body
 
-	def self.angular 
-		where( subtitle: 'Angular')
+    def self.by_position
+      order("position ASC")
+    end
+
+	  def self.angular 
+		 where( subtitle: 'Angular')
     end
 
     scope :ruby_on_rails, -> { where(subtitle: "Ruby on Rails") }
