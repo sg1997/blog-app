@@ -1,5 +1,5 @@
 class PortfolioUploader < CarrierWave::Uploader::Base
-
+  include CarrierWave::MiniMagick
   storage :aws 
   # storage :fog
 

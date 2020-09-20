@@ -13,6 +13,7 @@
 //= require rails-ujs
 //= require jquery-ui
 //= require html.sortable
+//= require cocoon
 //= require turbolinks
 //= require popper
 //= require bootstrap-sprockets

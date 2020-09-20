@@ -19,10 +19,14 @@
     <%= form.label :body %>
     <%= form.text_area :body %>
   </div>
-  <%= form.fields_for :technologies do |tech| %>
-   <%= tech.label :name %>
-   <%= tech.text_field :name %>
+  <div>
+  <%= form.fields_for :technologies do |technology_form| %>
+   <%= render 'technology_fields',f: technology_form %>
   <% end %>
+  </div>
+  <div>
+    <%= link_to_add_association 'Add Technology',form, :technologies,class: 'links' %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>
